@@ -3,12 +3,14 @@ import { getSocket, disconnectSocket } from "../../utils/socket";
 import { useLocation } from "react-router-dom";
 import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
+import { deriveKeyFromPassphrase, encryptMessage, decryptMessage } from "../../utils/crypto"; 
 
 export default function ChatPage() {
     const [socket, setSocket] = useState(null);
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [joinedRoom, setJoinedRoom] = useState(null); // State to store the room the user has joined
+    const [cryptoKey, setCryptoKey] = useState(null);
 
     // grabs variables from the target when a user clicks "chat" on displayUsers
     const location = useLocation();
@@ -20,7 +22,19 @@ export default function ChatPage() {
     const roomName = chatUser && user
         ? [user.username, chatUser.username].sort().join("_")
         : null;
-        
+
+    useEffect(() => {
+        // derive a symmetric key when room is chosen
+        const setupKey = async () => {
+        if (!roomName) return;
+            const passphrase = roomName; 
+            const salt = new TextEncoder().encode("fixed-or-room-specific-salt");
+            const key = await deriveKeyFromPassphrase(passphrase, salt);
+            setCryptoKey(key);
+        };
+        setupKey();
+    }, [roomName]);
+
     // useeffect that runs when user/chatuser/roomname changes; to connect/disconnect to socket.io/
     useEffect(() => {
 
@@ -40,11 +54,6 @@ export default function ChatPage() {
             setMessages([]);
         });
 
-        // listens for incoming messages from the server
-        newSocket.on("receiveMessage", (data) => {
-            setMessages(prev => [...prev, data]);
-        });
-
         // cleans and removes listeners and disconnects socket
         return () => {
             newSocket.off("roomJoined");
@@ -53,19 +62,41 @@ export default function ChatPage() {
         };
     }, [user, chatUser, roomName]); 
 
-
     // function to send a message. error handler if key variables are not defined. clears text box after sending 
-    function sendMessage() {
+    async function sendMessage() {
         if (!message.trim() || !socket || !roomName) return;
+
+        const { iv, ciphertext } = await encryptMessage(cryptoKey, message);
 
         socket.emit("sendMessage", {
             roomName,
-            message,
-            user: user.username
+            user: user.username,
+            iv,
+            ciphertext
         });
 
         setMessage("");
     };
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handler = async (data) => {
+            try {
+            const plaintext = await decryptMessage(cryptoKey, data.iv, data.ciphertext);
+            setMessages((prev) => [...prev, { user: data.user, message: plaintext }]);
+            } catch (err) {
+            console.error("Decryption / integrity failed:", err);
+            setMessages((prev) => [
+                ...prev,
+                { user: "SYSTEM", message: "Received a tampered or corrupted message." },
+            ]);
+            }
+        };
+
+        socket.on("receiveMessage", handler);
+        return () => socket.off("receiveMessage", handler);
+    }, [socket, cryptoKey])
 
     return (
         <div>

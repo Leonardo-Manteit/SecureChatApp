@@ -12,9 +12,9 @@ module.exports = (io) => {
     });
 
     // send message to room
-    socket.on("sendMessage", ({ roomName, message, user }) => {
-      io.to(roomName).emit("receiveMessage", { user, message });
-    });
+  socket.on("sendMessage", ({ roomName, user, iv, ciphertext }) => {
+    io.to(roomName).emit("receiveMessage", { user, iv, ciphertext });
+  });
 
     // handle disconnect
     socket.on("disconnect", () => {
