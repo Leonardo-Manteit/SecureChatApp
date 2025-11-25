@@ -33,3 +33,11 @@ Backend
 - PostgreSQL (user storage)
 - JWT authentication
 - bcrypt password hashing
+
+Wireshark testing was done using local-host, on port 8000.
+  
+<img width="474" height="475" alt="image" src="https://github.com/user-attachments/assets/1c36fa2e-2262-4942-9889-7bdb2c9b1250" />
+image 1: A message sent from the user (leo) to another user (liam)
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/38f6860a-8bc0-4434-8ebe-a0f5f7682f35" />
+image 2: captured wireshark of the message in image 1.
