@@ -1,20 +1,35 @@
 Leonardo Manteit
 35195800
 
-This is my secure chat app that I am creating as part of my monash course.
+A secure peer-to-peer messaging prototype built as part of my Monash cybersecurity course.
+The goal of this project is to explore secure communication protocols including authentication, symmetric encryption, integrity checking, and confidentiality protection.
 
-Currently, my app allows for users to create an account that is secured by a hashed password. And to search for any other account.
-completed: 
-- user authentication to the root server via login (password-based authentication)
-- I am using socket.io to try and create the connections for private messaging.
-- I can send messages using socket.io. however these messages are not stored for later use. so if the user is not there to see the message when it is sent. then they will never see the message at all. (maybe a problem, not sure yet)
+SecureChatApp is a web-based chat system that demonstrates:
+- User authentication with hashed passwords
+- Real-time messaging using Socket.IO
+- End-to-end symmetric encryption (E2EE) between users
+- Integrity protection using AES-GCM authentication tags
+- Confidentiality against packet sniffing tools like Wireshark
+  
+The app currently supports private 1-on-1 chat using a shared symmetric key derived automatically for each chat room.
+Messages are encrypted client-side and only decrypted by the intended receiver
 
+Features
+- Secure authentication
+- Search and connect to users by username
+- Real-time communication
+- End-to-end symmetric encryption
+- Intergrity protection
+- Confidentiality demonstrated via Wireshark (see attached image)
 
-
-Still to complete
-- end-end a-symmetric key encryption between users (allowing users to find their own symmetric key)
-- end-end symmetric key encryption between users
-- tampering detection
-- capture data using wireshark
-- running confidentiality attacks against data 
-- maybe some more ui fixes
+Tech Stack
+Frontend
+- React + Vite
+- Socket.IO Client
+- Web Crypto API (AES-GCM)
+Backend
+- Node.js / Express
+- Socket.IO Server
+- PostgreSQL (user storage)
+- JWT authentication
+- bcrypt password hashing
