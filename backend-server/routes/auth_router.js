@@ -8,16 +8,16 @@ const saltRounds = 10;
 
 const jwtSecret = process.env.JWT_SECRET || 'cakepudding'; // environment variable for the JWT secret
 
-// Signup Route
+// signup Route
 router.post('/SCA/signUp', async (req, res, next) => {
     const { username, password } = req.body;
 
     try {
-        // Hash the password
+        // hash the password
         const salt = await bcrypt.genSalt(saltRounds);
         const hash = await bcrypt.hash(password, salt);
 
-        // Create user
+        // create user
         const user = await User.createUser(username, hash);
 
         res.status(201).json({ message: 'Signup successful' });
@@ -26,7 +26,7 @@ router.post('/SCA/signUp', async (req, res, next) => {
     }
 });
 
-// Login Route
+// login Route
 router.post('/SCA/login', async (req, res, next) => {
     try {
         const { username, password } = req.body;
@@ -41,7 +41,7 @@ router.post('/SCA/login', async (req, res, next) => {
             return res.status(400).json({ message: 'Incorrect email or password' });
         }
 
-        // Generate JWT token
+        // generate JWT token
         const token = jwt.sign(
             {
                 id: user.id,

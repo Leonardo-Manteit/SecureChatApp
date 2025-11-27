@@ -1,6 +1,5 @@
 .loginContainer {
     display: flex;
-    background-color: #f5ebcf;
     height: 100%;
     width: 70%;
     margin: 0 auto;
@@ -14,22 +13,21 @@
     align-items: center;
     padding: 20px 40px;
     margin: 0 auto;
-    color: #49d43c;
+    color: #00b7ff;
     width: fit-content;
-    background-color: #f8f3e4;
     border-radius: 25px;
-    box-shadow: 5px 5px #49d43c7e;
+    box-shadow: 5px 5px #3f3cd47e;
     top: 20px;
 }
 
 .login h1 {
     margin: 0;
     font-size: 3rem;
-    color: darkgreen;
+    color: rgb(0, 238, 255);
 }
 .login h2 {
     font-size: 2rem;
-    color: darkgreen;
+    color: rgb(0, 247, 255);
 }
 .btn {
     margin-top: 5px;
@@ -62,6 +60,5 @@
 .inputs {
     padding: 5px 10px;
     border-radius: 15px;
-    color: black;
-    box-shadow: 5px 5px #49d43c7e;
+    box-shadow: 5px 5px #5d3cd47e;
 }

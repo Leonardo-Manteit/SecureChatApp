@@ -21,19 +21,24 @@ export default function Login(props) {
             navigate("/");
         } catch (err) {
             console.log(err);
-            setMessage("ERROR: Invalid email, username or password");
+            setMessage("ERROR: Invalid username or password");
         }
     }
 
     async function trySignUp(e) {
         e.preventDefault();
         try {
-            await signUp(newUser);
-            setMessage("Sign up Successful.");
-            setLogging(true);
+            if (!e.username  || !e.password ) {
+                setMessage("ERROR: Invalid username or password");
+                return
+            } else {
+                await signUp(newUser);
+                setMessage("Sign up Successful.");
+                setLogging(true);
+            }
         } catch (err) {
             console.log(err);
-            setMessage("ERROR:", err.message);
+            setMessage("ERROR: Could not sign up");
         }
     }
 
