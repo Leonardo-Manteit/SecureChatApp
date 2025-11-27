@@ -41,3 +41,11 @@ image 1: A message sent from the user (leo) to another user (liam)
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/38f6860a-8bc0-4434-8ebe-a0f5f7682f35" />
 image 2: captured wireshark of the message in image 1.
+
+note:
+1. The backend requires a .env file to connect to the database. This is excluded from github for obvious security reasons.
+(if you have your own backend you can connect to it)
+2. The github version is built for deployment on render. If you would like to do your own testing, you will need to change two things.
+     - in backend-server/server.js, find the socket.io logic. You will need to comment out the //for deployment, and comment back in //for testing.
+     - in frontend-interface/src/utils/socket.js you will again need to comment out the deployment version, and comment in the testing version.
+
