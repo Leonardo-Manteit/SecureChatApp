@@ -42,6 +42,11 @@ image 1: A message sent from the user (leo) to another user (liam)
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/38f6860a-8bc0-4434-8ebe-a0f5f7682f35" />
 image 2: captured wireshark of the message in image 1.
 
+
+# running on your end.
+- clone the repository
+- make sure to run npm install in the backend and the frontend files
+- for testing, run 'npm run dev' in BOTH backend and frontend files.
 note:
 1. The backend requires a .env file to connect to the database. This is excluded from github for obvious security reasons.
 (if you have your own backend you can connect to it)
