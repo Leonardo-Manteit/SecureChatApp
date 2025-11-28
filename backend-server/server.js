@@ -33,7 +33,7 @@ app.get('*', (req, res) => {
 const io = new Server(server, {
   cors: {
     // origin: "http://localhost:5173", // for testing
-    // origin: "https://securechatapp-oiky.onrend/er.com/", // for deployment
+    origin: "https://securechatapp-oiky.onrend/er.com/", // for deployment
     methods: ["GET", "POST"]
   }
 });
