@@ -45,8 +45,8 @@ image 2: captured wireshark of the message in image 1.
 
 # running on your end
 - clone the repository
-- make sure to run npm install in the backend and the frontend files
-- for testing, run 'npm run dev' in BOTH backend and frontend files.
+- make sure to run npm install in the backend and the frontend folder
+- for testing, run 'npm run dev' in BOTH backend and frontend folder.
 
 ## note:
 1. The backend requires a .env file to connect to the database. This is excluded from github for obvious security reasons.
@@ -54,5 +54,6 @@ image 2: captured wireshark of the message in image 1.
 2. The github version is built for deployment on render. If you would like to do your own testing, you will need to change two things.
      - in backend-server/server.js, find the socket.io logic. You will need to comment out the //for deployment, and comment back in //for testing.
      - in frontend-interface/src/utils/socket.js you will again need to comment out the deployment version, and comment in the testing version.
+
 
 
