@@ -23,23 +23,10 @@ export function getUserFromLocalStorage() {
     }
 }
 
-// Function to extract and decode the payload from the JWT
+// function to extract and decode the payload from the JWT
 function extractPayload(token) {
     const payload = token.split('.')[1];
     const decodedPayload = JSON.parse(window.atob(payload));
     return decodedPayload;
 }
 
-
-import { getNewToken } from "./auth_api";
-// Function to update the token in localStorage
-
-export async function updateToken(user) {
-    try {
-        let token = await getNewToken(user)
-        localStorage.setItem('token', token)
-        // console.log('token update:', token)
-    } catch (err) {
-        console.log('undable to update:',err)
-    }
-}

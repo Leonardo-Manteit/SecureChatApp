@@ -29,7 +29,7 @@ export async function deriveKeyFromPassphrase(passphrase, salt) {
 
 // encrypt a message using AES-GCM
 export async function encryptMessage(key, plaintext) {
-  const iv = window.crypto.getRandomValues(new Uint8Array(12)); // 96-bit IV for GCM
+  const iv = window.crypto.getRandomValues(new Uint8Array(12)); // 12-bit IV 
   const ciphertextBuffer = await window.crypto.subtle.encrypt(
     {
       name: "AES-GCM",
@@ -62,7 +62,7 @@ export async function decryptMessage(key, ivBase64, ciphertextBase64) {
   return dec.decode(plaintextBuffer);
 }
 
-// Helpers
+// helper functions grabbed from the api notes
 function bufferToBase64(buf) {
   return btoa(String.fromCharCode(...buf));
 }

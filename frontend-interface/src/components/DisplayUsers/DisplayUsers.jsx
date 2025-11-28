@@ -13,15 +13,14 @@ export default function DisplayUsers({search, user}) {
         getUsers()
         .then((res) => setAllUsers(res))
         .then(() => setLoading(false))
-        .catch(err => console.error('Direct fetch error:', err));
+        .catch(err => console.error('Direct fetch error:', err)); // if fetch fails
     }, []);
 
     // routes to chatpage when a user clicks chat on another users name
     function handleClick(e) {
-        console.log(e)
         user
-        ? navigate(`/Chat/${e.username}`, { state: {user: user, targetUser: e} })
-        :navigate("/Login");
+        ? navigate(`/Chat/${e.username}`, { state: {targetUser: e} })
+        : navigate("/Login");
     };
 
     // filters the users based on the search query that is parsed into this component from "searchbar"
@@ -38,7 +37,6 @@ export default function DisplayUsers({search, user}) {
                 </>
             );
         }
-
     // displays all current users on the database
     return (
        <div className={styles.users}>
@@ -46,7 +44,7 @@ export default function DisplayUsers({search, user}) {
                 <div key={1}>No users found.</div>
             ) : (
                 filteredUsers.map(user => (
-                    <div key={user.id}>
+                    <div key={user.username}>
                         <div>{user.username}</div>
                         <button onClick={() => handleClick(user)}>chat</button>
                     </div>

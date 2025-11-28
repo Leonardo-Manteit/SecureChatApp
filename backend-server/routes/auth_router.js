@@ -11,7 +11,7 @@ const jwtSecret = process.env.JWT_SECRET || 'cakepudding'; // environment variab
 // signup Route
 router.post('/SCA/signUp', async (req, res, next) => {
     const { username, password } = req.body;
-
+    console.log('attempting sign up')
     try {
         // hash the password
         const salt = await bcrypt.genSalt(saltRounds);
@@ -28,6 +28,7 @@ router.post('/SCA/signUp', async (req, res, next) => {
 
 // login Route
 router.post('/SCA/login', async (req, res, next) => {
+    console.log('attempting login')
     try {
         const { username, password } = req.body;
 

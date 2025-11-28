@@ -28,7 +28,7 @@ export default function Login(props) {
     async function trySignUp(e) {
         e.preventDefault();
         try {
-            if (!e.username  || !e.password ) {
+            if (!formData.username  || !formData.password ) {
                 setMessage("ERROR: Invalid username or password");
                 return
             } else {

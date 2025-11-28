@@ -11,12 +11,12 @@ export default function SearchBar({ placeholder = "", user }) { // allows a user
                     <input
                         type="text"
                         placeholder={placeholder}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value.trim())}
                         value={search}
                         />
             <button>Find a Friend</button>
             </section>
-            <DisplayUsers search={search} user={user}/> 
+            <DisplayUsers search={search} user={user}/>
         </>
     );
 }

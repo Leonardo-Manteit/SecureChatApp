@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
 import { deriveKeyFromPassphrase, encryptMessage, decryptMessage } from "../../utils/crypto"; 
+import { getUserFromLocalStorage } from "../../utils/auth_service";
 
 export default function ChatPage() {
     const [socket, setSocket] = useState(null);
@@ -14,7 +15,7 @@ export default function ChatPage() {
 
     // grabs variables from the target when a user clicks "chat" on displayUsers
     const location = useLocation();
-    const user = location.state?.user;
+    const [user, setUser] = useState(getUserFromLocalStorage());
     const chatUser = location.state?.targetUser;
 
     // creates a unique room name by combining the current user and who they want to chat with.
@@ -36,7 +37,7 @@ export default function ChatPage() {
     }, [roomName]);
 
     // useeffect that runs when user/chatuser/roomname changes; to connect/disconnect to socket.io/
-    useEffect(() => {
+    useEffect(() => { 
 
         // if both are not defined, do not set up socket io.
         if (!chatUser || !user) return;
@@ -62,7 +63,7 @@ export default function ChatPage() {
         };
     }, [user, chatUser, roomName]); 
 
-    // function to send a message. error handler if key variables are not defined. clears text box after sending 
+    // function to send a message. error handler if key variables are not defined. clears text box after sending, used for encryption
     async function sendMessage() {
         if (!message.trim() || !socket || !roomName) return;
 
@@ -75,10 +76,10 @@ export default function ChatPage() {
             ciphertext
         });
 
-        setMessage("");
+        setMessage(""); // for gui purposes
     };
 
-    useEffect(() => {
+    useEffect(() => { // decryption
         if (!socket) return;
 
         const handler = async (data) => {
@@ -86,10 +87,10 @@ export default function ChatPage() {
             const plaintext = await decryptMessage(cryptoKey, data.iv, data.ciphertext);
             setMessages((prev) => [...prev, { user: data.user, message: plaintext }]);
             } catch (err) {
-            console.error("Decryption / integrity failed:", err);
+            console.error("Decryption / integrity failed:", err); // logs error when there is an integrity fail
             setMessages((prev) => [
                 ...prev,
-                { user: "SYSTEM", message: "Received a tampered or corrupted message." },
+                { user: "SYSTEM", message: "Received a tampered or corrupted message." }, //alerts the user to any tampering
             ]);
             }
         };

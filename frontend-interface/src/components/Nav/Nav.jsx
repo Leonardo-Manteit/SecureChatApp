@@ -4,7 +4,6 @@ import { getUserFromLocalStorage } from '../../utils/auth_service.js';
 import { useNavigate } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 import styles from './Nav.module.css'
-import SearchBar from '../SearchBar/SearchBar.jsx';
 
 export default function Nav() {
     const navigate = useNavigate()
@@ -14,7 +13,7 @@ export default function Nav() {
     function handleLogout() {
         setUser(null);
         localStorage.removeItem('token');
-        currentLocation.pathname === '/' ? location.reload() : navigate('/')
+        currentLocation.pathname === '/' ? location.reload() : navigate('/') // important if logout happens while in a chat room
     }
 
     return (
@@ -31,11 +30,9 @@ export default function Nav() {
                 </div>
                 <nav className={styles.navbar}>
                     <ul>
-                        <li><Link to="/">Home</Link></li>
-                        {user && user.is_verified? <li><Link to="/CreateEvent">Create Event</Link></li> : null }
                         {user ? 
-                        <li onClick={handleLogout}>Logout</li>
-                        : <li><Link to="/Login">Login</Link></li> }
+                        <button onClick={handleLogout}>Logout of {user.username}</button>
+                        : <button><Link to="/Login">Login</Link></button> }
                     </ul>
                 </nav>
             </header> 

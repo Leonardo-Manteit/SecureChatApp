@@ -20,3 +20,5 @@ export const disconnectSocket = () => { // allows for a user to disconnect to th
     socket = null;
   }
 };
+
+// functions from the socket api notes
